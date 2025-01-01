@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.active {
+  @apply text-primary;
+}
+
+.active hr {
+  @apply scale-x-100;
+  @apply text-primary;
+}
+
+/* Optional: Add a subtle fade to dropdown items */
+.group:hover p {
+  @apply transition-colors duration-200;
+}
