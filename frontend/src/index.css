@@ -15,3 +15,8 @@
 .group:hover p {
   @apply transition-colors duration-200;
 }
+
+html,
+body {
+  scroll-behavior: smooth;
+}
