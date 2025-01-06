@@ -14,10 +14,10 @@ const Footer = () => {
             </h1>
           </div>
           <p className="w-full md:w-2/3 text-gray-600 leading-6">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book.
+            Our aim is to connect patients with trusted doctors for convenient
+            and hassle-free medical consultations. Our mission is to provide
+            easy access to quality healthcare services, empowering patients to
+            make informed decisions about their well-being.
           </p>
         </div>
 
