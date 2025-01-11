@@ -31,7 +31,7 @@ const TopDoctors = () => {
               >
                 <p
                   className={`w-2 h-2 rounded-full ${
-                    item.available ? "bg-green-500" : "bg-gray-500"
+                    item.available ? "bg-green-500" : "bg-gray-1000"
                   }`}
                 ></p>
                 <p>{item.available ? "Available" : "Not Available"}</p>

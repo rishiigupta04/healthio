@@ -81,7 +81,7 @@ const Doctors = () => {
                 >
                   <p
                     className={`w-2 h-2 rounded-full ${
-                      doc.available ? "bg-green-500" : "bg-gray-500"
+                      doc.available ? "bg-green-500" : "bg-gray-1000"
                     }`}
                   ></p>
                   <p>{doc.available ? "Available" : "Not Available"}</p>
