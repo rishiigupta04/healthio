@@ -33,17 +33,19 @@ const Doctors = () => {
         Explore Our Network of Specialized Doctors
       </p>
       <div className="flex flex-col sm:flex-row items-start gap-5 mt-5">
-        <button
-          onClick={() => setShowFilter(!showFilter)}
-          className={`py-1 px-3 border rounded text-sm sm:hidden ${
-            showFilter ? "bg-primary text-white" : ""
-          }`}
-        >
-          Filters
-        </button>
+        {!speciality && (
+          <button
+            onClick={() => setShowFilter(!showFilter)}
+            className={`py-1 px-3 border rounded text-sm sm:hidden ${
+              showFilter ? "bg-primary text-white" : ""
+            }`}
+          >
+            Filters
+          </button>
+        )}
         <div
           className={`flex-col gap-4 text-sm ${
-            showFilter ? "flex" : "hidden sm:flex"
+            showFilter || speciality ? "flex" : "hidden sm:flex"
           }`}
         >
           {specialties.map((spec) => (

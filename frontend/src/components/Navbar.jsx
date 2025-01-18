@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { assets } from "../assets/assets";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -6,6 +6,20 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const [token, setToken] = useState(true);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="flex items-center justify-between text-sm py-4 mb-5 border-b border-b-[#ADADAD]">
@@ -36,7 +50,10 @@ const Navbar = () => {
       </ul>
       <div>
         {token ? (
-          <div className="flex items-center gap-2 cursor-pointer relative">
+          <div
+            className="flex items-center gap-2 cursor-pointer relative"
+            ref={menuRef}
+          >
             <div
               onClick={() => setShowMenu(!showMenu)}
               className="flex items-center gap-2"
