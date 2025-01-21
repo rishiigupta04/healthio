@@ -1,30 +1,36 @@
-import React, { useState } from "react";
-import { assets } from "../assets/assets";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { AdminContext } from "../context/AdminContext";
 
 const Login = () => {
   const [state, setState] = useState("Admin");
+
+  const { setAToken, backendUrl } = useContext(AdminContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/admin/login",
-        {
+      if (state === "Admin") {
+        const { data } = await axios.post(`${backendUrl}/api/admin/login`, {
           email,
           password,
-        }
-      );
+        });
 
-      if (response.data.success) {
-        localStorage.setItem("adminToken", response.data.token);
-        toast.success("Login successful!");
-        // navigate("/dashboard");
+        if (data.success) {
+          localStorage.setItem("aToken", data.token);
+          setAToken(data.token);
+        } else {
+          toast.error(data.message);
+        }
+      } else {
+        // const { data } = await axios.post(`${backendUrl}/api/doctor/login`, {
+        //   email,
+        //   password,
+        // });
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed");
