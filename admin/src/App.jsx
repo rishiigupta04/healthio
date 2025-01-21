@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import Login from "./pages/Login";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AdminContext } from "./context/AdminContext";
+import Navbar from "./components/NavBar";
 
 const App = () => {
   const { aToken } = useContext(AdminContext);
@@ -19,6 +21,7 @@ const App = () => {
         pauseOnHover={false}
         theme="light"
       />
+      <Navbar />
     </div>
   ) : (
     <>
