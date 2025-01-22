@@ -93,7 +93,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. James specializes in preventive care and managing chronic conditions. His patient-centered approach focuses on building long-term relationships with families. With expertise in diabetes management, cardiovascular health, and geriatric care, he provides comprehensive treatment plans tailored to each patient's unique needs and lifestyle.",
     fees: 50,
     available: true,
     address: {
@@ -109,7 +109,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "3 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Larson is dedicated to women's health and wellness throughout all life stages. She provides comprehensive care from adolescence through menopause with compassion and expertise. Her special interests include minimally invasive surgery, fertility treatments, and hormone management. She is known for her gentle approach and thorough patient education.",
     fees: 60,
     available: true,
     address: {
@@ -125,7 +125,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "1 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Patel combines medical and cosmetic dermatology to help patients achieve healthy, beautiful skin. She stays current with the latest skincare innovations and has particular expertise in treating acne, psoriasis, and skin cancer. Her approach integrates advanced treatments with practical skincare routines for optimal results.",
     fees: 30,
     available: false,
     address: {
@@ -141,7 +141,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "2 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Lee creates a warm, friendly environment for young patients and their families. He emphasizes developmental care and preventive health for children of all ages. With special training in behavioral health and childhood allergies, he provides comprehensive pediatric care from newborn checks to adolescent medicine.",
     fees: 40,
     available: true,
     address: {
@@ -157,7 +157,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Garcia excels in diagnosing complex neurological conditions with a research background in neurodegenerative diseases. Her expertise includes treating migraines, epilepsy, and multiple sclerosis. She combines traditional neurological treatments with innovative therapeutic approaches to provide comprehensive care for her patients.",
     fees: 50,
     available: true,
     address: {
@@ -173,7 +173,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Williams specializes in headache disorders and neuromuscular conditions. His holistic approach to neurological health incorporates lifestyle modifications, medication management, and rehabilitation techniques. He has extensive experience in treating stroke patients and conducting neurological research studies.",
     fees: 50,
     available: true,
     address: {
@@ -189,7 +189,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Davis brings extensive emergency medicine experience to his family practice. He excels in acute care and managing multiple health conditions simultaneously. His background in sports medicine allows him to provide comprehensive care for both athletic injuries and chronic health conditions.",
     fees: 50,
     available: false,
     address: {
@@ -205,7 +205,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "3 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. White focuses on minimally invasive surgical techniques and reproductive health. His expertise includes treating endometriosis, fibroids, and fertility issues. He is known for his patient-centered approach and dedication to using the latest technological advancements in gynecological care.",
     fees: 60,
     available: true,
     address: {
@@ -221,7 +221,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "1 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Mitchell specializes in treating skin cancer and autoimmune skin conditions. Her practice combines medical dermatology with aesthetic procedures. She has particular expertise in laser treatments and chemical peels, while maintaining a strong focus on skin cancer prevention and treatment.",
     fees: 30,
     available: true,
     address: {
@@ -237,7 +237,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "2 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. King has special expertise in pediatric behavioral health and developmental disorders. He partners with families to support children's physical and emotional wellbeing. His approach includes regular developmental screening, nutritional guidance, and collaborative care with other specialists when needed.",
     fees: 40,
     available: true,
     address: {
@@ -253,7 +253,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Kelly is renowned for her work with stroke patients and neurorehabilitation. She employs innovative therapies and has pioneered several treatment protocols. Her expertise extends to movement disorders and neurodegenerative diseases, with a special focus on early intervention and prevention.",
     fees: 50,
     available: false,
     address: {
@@ -269,7 +269,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Harris focuses on movement disorders and neurodegenerative conditions. His comprehensive approach combines medication management with lifestyle modifications and physical therapy. He has conducted extensive research in Parkinson's disease and essential tremors, bringing cutting-edge treatments to his patients.",
     fees: 50,
     available: true,
     address: {
@@ -285,7 +285,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "4 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Evans emphasizes preventive care and health education in her practice. She helps patients make informed decisions about their health management through comprehensive consultations. Her expertise includes managing chronic conditions, women's health, and geriatric care with a focus on maintaining quality of life.",
     fees: 50,
     available: true,
     address: {
@@ -301,7 +301,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "3 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Martinez specializes in high-risk pregnancies and fertility treatments. His caring approach helps patients navigate complex reproductive health issues. He has additional training in minimally invasive surgery and advanced obstetric care, ensuring comprehensive treatment for all gynecological conditions.",
     fees: 60,
     available: true,
     address: {
@@ -317,7 +317,7 @@ export const doctors = [
     degree: "MBBS",
     experience: "1 Years",
     about:
-      "Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.",
+      "Dr. Hill combines clinical dermatology with aesthetic treatments to provide comprehensive skin care. She specializes in treating complex skin conditions while also offering advanced cosmetic procedures. Her expertise includes acne treatment, anti-aging procedures, and management of chronic skin conditions using both traditional and innovative approaches.",
     fees: 30,
     available: true,
     address: {
