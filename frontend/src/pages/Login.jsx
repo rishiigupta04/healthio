@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const { token, setToken, backendUrl } = useContext(AppContext);
+
   const [state, setState] = useState("Sign Up");
 
   const [name, setName] = useState("");
@@ -10,9 +15,61 @@ const Login = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+
+    try {
+      if (state === "Sign Up") {
+        const { data } = await axios.post(
+          backendUrl + "/api/user/register",
+          {
+            name,
+            email,
+            password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (data.success) {
+          localStorage.setItem("token", data.token);
+          setToken(data.token);
+        } else {
+          toast.error(data.message);
+        }
+      } else {
+        const { data } = await axios.post(
+          backendUrl + "/api/user/login",
+          {
+            email,
+            password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (data.success) {
+          localStorage.setItem("token", data.token);
+          setToken(data.token);
+        } else {
+          toast.error(data.message);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
   };
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token]);
 
   return (
     <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
@@ -56,7 +113,10 @@ const Login = () => {
             required
           />
         </div>
-        <button className="bg-primary text-white w-full py-2 my-2 rounded-md text-base">
+        <button
+          type="submit"
+          className="bg-primary text-white w-full py-2 my-2 rounded-md text-base"
+        >
           {state === "Sign Up" ? "Create account" : "Login"}
         </button>
         {state === "Sign Up" ? (
