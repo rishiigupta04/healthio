@@ -92,6 +92,17 @@ const Appointment = () => {
     getAvailableSlots();
   }, [docInfo]);
 
+  const scrollTimeSlots = (direction) => {
+    const container = document.querySelector(".time-slots-container");
+    const scrollAmount = 200; // Adjust this value to control scroll distance
+    if (container) {
+      container.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     docInfo && (
       <div>
@@ -161,21 +172,64 @@ const Appointment = () => {
               ))}
           </div>
 
-          <div className="flex items-center gap-3 w-full overflow-x-visible mt-4">
-            {docSlots.length &&
-              docSlots[slotIndex].map((item, index) => (
-                <p
-                  onClick={() => setSlotTime(item.time)}
-                  key={index}
-                  className={`text-sm font-light  flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${
-                    item.time === slotTime
-                      ? "bg-primary text-white"
-                      : "text-[#949494] border border-[#B4B4B4]"
-                  }`}
-                >
-                  {item.time.toLowerCase()}
-                </p>
-              ))}
+          {/* Updated time slots section with scroll buttons */}
+          <div className="relative mt-4">
+            <button
+              onClick={() => scrollTimeSlots("left")}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-md hover:bg-gray-50"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-gray-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <div className="flex items-center gap-3 w-full overflow-x-hidden px-10 time-slots-container">
+              {docSlots.length &&
+                docSlots[slotIndex].map((item, index) => (
+                  <p
+                    onClick={() => setSlotTime(item.time)}
+                    key={index}
+                    className={`text-sm font-light flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${
+                      item.time === slotTime
+                        ? "bg-primary text-white"
+                        : "text-[#949494] border border-[#B4B4B4]"
+                    }`}
+                  >
+                    {item.time.toLowerCase()}
+                  </p>
+                ))}
+            </div>
+
+            <button
+              onClick={() => scrollTimeSlots("right")}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-md hover:bg-gray-50"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-gray-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
           </div>
 
           <button
