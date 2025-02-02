@@ -4,6 +4,8 @@ import bcrypt from "bcrypt";
 import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import { v2 as cloudinary } from "cloudinary";
+import doctorModel from "../models/doctorModel.js";
+import appointmentModel from "../models/appointmentModel.js";
 
 // Register User API
 // This API endpoint handles user registration
@@ -196,4 +198,72 @@ const updateProfile = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, getProfile, updateProfile };
+//API to book appointment
+// This function handles the booking of an appointment by a user
+const bookAppointment = async (req, res) => {
+  try {
+    // Extracting user ID, doctor ID, slot date, and slot time from the request body
+    const { userId, docId, slotDate, slotTime } = req.body;
+
+    // Fetching doctor data excluding the password
+    const docData = await doctorModel.findById(docId).select("-password");
+    // Checking if the doctor is available
+    if (!docData.available) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Doctor is not available" });
+    }
+
+    // Fetching the slots booked by the doctor
+    let slots_booked = docData.slots_booked;
+
+    // Checking if the requested slot is already booked
+    if (slots_booked[slotDate]) {
+      if (slots_booked[slotDate].includes(slotTime)) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Slot is already booked" });
+      }
+      // Adding the slot time to the existing date if not already booked
+      slots_booked[slotDate].push(slotTime);
+    } else {
+      // Creating a new date with the slot time if the date does not exist
+      slots_booked[slotDate] = [];
+      slots_booked[slotDate].push(slotTime);
+    }
+
+    // Fetching user data excluding the password
+    const userData = await userModel.findById(userId).select("-password");
+    // Removing the slots booked from the doctor data to avoid sending unnecessary data
+    delete docData.slots_booked;
+
+    // Creating appointment data
+    const appointmentData = {
+      userId,
+      docId,
+      docData,
+      userData,
+      amount: docData.fees,
+      slotDate,
+      slotTime,
+      date: Date.now(),
+    };
+
+    // Creating a new appointment
+    const newAppointment = new appointmentModel(appointmentData);
+    await newAppointment.save();
+
+    // Updating the doctor's slots booked
+    await doctorModel.findByIdAndUpdate(docId, { slots_booked });
+
+    // Sending a success response
+    res.status(200).json({ success: true, message: "Appointment Booked" });
+  } catch (error) {
+    // Logging any errors that occur during the booking process
+    console.log(error);
+    // Sending an error response
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export { registerUser, loginUser, getProfile, updateProfile, bookAppointment };
