@@ -223,9 +223,10 @@ const bookAppointment = async (req, res) => {
         return res
           .status(400)
           .json({ success: false, message: "Slot is already booked" });
+      } else {
+        slots_booked[slotDate].push(slotTime);
       }
       // Adding the slot time to the existing date if not already booked
-      slots_booked[slotDate].push(slotTime);
     } else {
       // Creating a new date with the slot time if the date does not exist
       slots_booked[slotDate] = [];

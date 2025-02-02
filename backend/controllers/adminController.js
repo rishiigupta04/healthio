@@ -103,6 +103,7 @@ const addDoctor = async (req, res) => {
       address: JSON.parse(address),
       date: Date.now(),
       image: imageUrl,
+      slots_booked: {},
     };
 
     const newDoctor = new doctorModel(doctorData);

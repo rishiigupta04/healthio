@@ -13,7 +13,7 @@ const Appointment = () => {
     useContext(AppContext);
   const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-  const [docInfo, setDocInfo] = useState(null);
+  const [docInfo, setDocInfo] = useState(false);
 
   const [docSlots, setDocSlots] = useState([]);
   const [slotIndex, setSlotIndex] = useState(0);
@@ -24,8 +24,17 @@ const Appointment = () => {
     setDocInfo(docInfo);
   };
 
-  const getAvailableSlots = () => {
+  const getAvailableSlots = async () => {
     setDocSlots([]);
+
+    // Check if docInfo is available
+    if (!docInfo) {
+      console.error("Doctor information is not available.");
+      return; // Exit the function if docInfo is not available
+    }
+
+    // Ensure slots_booked is initialized
+    const slotsBooked = docInfo.slots_booked || {}; // Default to an empty object if undefined
 
     // getting current date
     let today = new Date();
@@ -59,26 +68,25 @@ const Appointment = () => {
           minute: "2-digit",
         });
 
-        // let day = currentDate.getDate();
-        // let month = currentDate.getMonth() + 1;
-        // let year = currentDate.getFullYear();
+        let day = currentDate.getDate();
+        let month = currentDate.getMonth() + 1;
+        let year = currentDate.getFullYear();
 
-        // const slotDate = day + "_" + month + "_" + year;
-        // const slotTime = formattedTime;
+        const slotDate = `${day}_${month}_${year}`; // Format the date as "day_month_year"
+        const slotTime = formattedTime;
 
-        // const isSlotAvailable =
-        //   docInfo.slots_booked[slotDate] &&
-        //   docInfo.slots_booked[slotDate].includes(slotTime)
-        //     ? false
-        //     : true;
+        // Check if the slotDate exists in slots_booked
+        const bookedSlots = slotsBooked[slotDate] || []; // Default to an empty array if undefined
 
-        // if (isSlotAvailable) {
-        // Add slot to array
-        timeSlots.push({
-          datetime: new Date(currentDate),
-          time: formattedTime,
-        });
-        // }
+        const isSlotAvailable = !bookedSlots.includes(slotTime); // Check if the slotTime is not booked
+
+        if (isSlotAvailable) {
+          // Add slot to array
+          timeSlots.push({
+            datetime: new Date(currentDate),
+            time: formattedTime,
+          });
+        }
 
         // Increment current time by 30 minutes
         currentDate.setMinutes(currentDate.getMinutes() + 30);
@@ -87,7 +95,6 @@ const Appointment = () => {
       setDocSlots((prev) => [...prev, timeSlots]);
     }
   };
-
   const bookAppointment = async () => {
     if (!token) {
       toast.error("Please login to book an appointment");
@@ -129,14 +136,6 @@ const Appointment = () => {
     }
   };
 
-  useEffect(() => {
-    fetchDocInfo();
-  }, [docId, doctors]);
-
-  useEffect(() => {
-    getAvailableSlots();
-  }, [docInfo]);
-
   const scrollTimeSlots = (direction) => {
     const container = document.querySelector(".time-slots-container");
     const scrollAmount = 200; // Adjust this value to control scroll distance
@@ -147,6 +146,18 @@ const Appointment = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (doctors.length > 0) {
+      fetchDocInfo();
+    }
+  }, [doctors, docId]);
+
+  useEffect(() => {
+    if (docInfo) {
+      getAvailableSlots();
+    }
+  }, [docInfo]);
 
   return (
     docInfo && (
