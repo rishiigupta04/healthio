@@ -1,10 +1,61 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { assets } from "../assets/assets";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const MyAppointments = () => {
-  const { doctors } = useContext(AppContext);
+  const { backendUrl, token } = useContext(AppContext);
+
+  const [appointments, setAppointments] = useState([]);
+
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const slotDateFormat = (slotDate) => {
+    const dateArray = slotDate.split("_");
+
+    return `${dateArray[0]} ${months[parseInt(dateArray[1] - 1)]} ${
+      dateArray[2]
+    }`;
+  };
+
+  const getUserAppointments = async () => {
+    try {
+      const { data } = await axios.get(`${backendUrl}/api/user/appointments`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (data.success) {
+        setAppointments(data.appointments.reverse());
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getUserAppointments();
+    } else {
+      navigate("/login");
+    }
+  }, [token]);
 
   return (
     <div>
@@ -12,40 +63,44 @@ const MyAppointments = () => {
         My appointments
       </p>
       <div className="">
-        {doctors.slice(0, 2).map((item, index) => (
+        {appointments.map((item, index) => (
           <div
             key={index}
             className="grid grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-4 border-b"
           >
             <div>
-              <img className="w-36 bg-[#EAEFFF]" src={item.image} alt="" />
+              <img
+                className="w-36 bg-[#EAEFFF]"
+                src={item.docData.image}
+                alt=""
+              />
             </div>
             <div className="flex-1 text-sm text-[#5E5E5E]">
               <p className="text-[#262626] text-base font-semibold">
-                {item.name}
+                {item.docData.name}
               </p>
-              <p>{item.speciality}</p>
+              <p>{item.docData.speciality}</p>
               <p className="text-[#464646] font-medium mt-1">Address:</p>
-              <p className="">{item.address.line1}</p>
-              <p className="">{item.address.line2}</p>
+              <p className="">{item.docData.address.line1}</p>
+              <p className="">{item.docData.address.line2}</p>
               <p className=" mt-1">
                 <span className="text-sm text-[#3C3C3C] font-medium">
                   Date & Time:
                 </span>{" "}
-                25th Jan 2025, 10:00 AM
+                {slotDateFormat(item.slotDate)} | {item.slotTime}
               </p>
             </div>
             <div></div>
             <div className="flex flex-col gap-2 justify-end text-sm text-center">
               <button
-                onClick={() => setPayment(item._id)}
+                // onClick={() => setPayment(item.docId)}
                 className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300"
               >
                 Pay Online
               </button>
 
               <button
-                onClick={() => appointmentStripe(item._id)}
+                // onClick={() => appointmentStripe(item._id)}
                 className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-gray-100 hover:text-white transition-all duration-300 flex items-center justify-center"
               >
                 <img
@@ -56,7 +111,7 @@ const MyAppointments = () => {
               </button>
 
               <button
-                onClick={() => appointmentRazorpay(item._id)}
+                // onClick={() => appointmentRazorpay(item._id)}
                 className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-gray-100 hover:text-white transition-all duration-300 flex items-center justify-center"
               >
                 <img
