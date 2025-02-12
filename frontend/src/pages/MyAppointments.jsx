@@ -11,6 +11,8 @@ const MyAppointments = () => {
 
   const [appointments, setAppointments] = useState([]);
 
+  const navigate = useNavigate();
+
   const months = [
     "Jan",
     "Feb",
@@ -79,6 +81,78 @@ const MyAppointments = () => {
     }
   };
 
+  const initPay = async (order) => {
+    try {
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: "Appointment Payment",
+        description: "Appointment Payment",
+        order_id: order.id,
+        receipt: order.receipt,
+        handler: async (response) => {
+          console.log(response);
+
+          try {
+            const { data } = await axios.post(
+              `${backendUrl}/api/user/verify-razorpay`,
+              response,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+            if (data.success) {
+              getUserAppointments();
+              getDoctorsData();
+              navigate("/my-appointments");
+              toast.success(data.message);
+            } else {
+              toast.error(data.message);
+            }
+          } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+          }
+        },
+      };
+
+      const rzp1 = new window.Razorpay(options);
+      rzp1.open();
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
+  const appointmentRazorpay = async (appointmentId) => {
+    try {
+      const { data } = await axios.post(
+        `${backendUrl}/api/user/payment-razorpay`,
+        {
+          appointmentId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (data.success) {
+        initPay(data.order);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     if (token) {
       getUserAppointments();
@@ -120,46 +194,57 @@ const MyAppointments = () => {
                 {slotDateFormat(item.slotDate)} | {item.slotTime}
               </p>
             </div>
-            <div></div>
-            <div className="flex flex-col gap-2 justify-end text-sm text-center">
-              <button
-                // onClick={() => setPayment(item.docId)}
-                className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300"
-              >
-                Pay Online
-              </button>
 
-              <button
-                // onClick={() => appointmentStripe(item._id)}
-                className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-gray-100 hover:text-white transition-all duration-300 flex items-center justify-center"
-              >
-                <img
-                  className="max-w-20 max-h-5"
-                  src={assets.stripe_logo}
-                  alt=""
-                />
-              </button>
-
-              <button
-                // onClick={() => appointmentRazorpay(item._id)}
-                className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-gray-100 hover:text-white transition-all duration-300 flex items-center justify-center"
-              >
-                <img
-                  className="max-w-20 max-h-5"
-                  src={assets.razorpay_logo}
-                  alt=""
-                />
-              </button>
-
-              <button className="sm:min-w-48 py-2 border rounded text-[#696969]  bg-[#EAEFFF]">
-                Paid
-              </button>
-
-              <button className="sm:min-w-48 py-2 border border-green-500 rounded text-green-500">
-                Completed
-              </button>
-
-              {!item.cancelled && (
+            <div className="flex flex-col items-center justify-center gap-2 text-sm text-center">
+              {!item.cancelled &&
+                !item.payment &&
+                !item.isCompleted &&
+                item.payment !== item._id && (
+                  <button
+                    onClick={() => appointmentRazorpay(item._id)}
+                    className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300"
+                  >
+                    Pay Online
+                  </button>
+                )}
+              {!item.cancelled &&
+                !item.payment &&
+                !item.isCompleted &&
+                item.payment === item._id && (
+                  <button className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-gray-100 hover:text-white transition-all duration-300 flex items-center justify-center">
+                    <img
+                      className="max-w-20 max-h-5"
+                      src={assets.stripe_logo}
+                      alt=""
+                    />
+                  </button>
+                )}
+              {!item.cancelled &&
+                !item.payment &&
+                !item.isCompleted &&
+                item.payment === item._id && (
+                  <button
+                    onClick={() => appointmentRazorpay(item._id)}
+                    className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-gray-100 hover:text-white transition-all duration-300 flex items-center justify-center"
+                  >
+                    <img
+                      className="max-w-20 max-h-5"
+                      src={assets.razorpay_logo}
+                      alt=""
+                    />
+                  </button>
+                )}
+              {!item.cancelled && item.payment && !item.isCompleted && (
+                <button className="sm:min-w-48 py-2 border-2 border-green-500 rounded text-green-500  cursor-default">
+                  Paid
+                </button>
+              )}
+              {item.isCompleted && (
+                <button className="sm:min-w-48 py-2 bg-green-600 text-white rounded text-green cursor-default">
+                  Completed
+                </button>
+              )}
+              {!item.cancelled && !item.isCompleted && (
                 <button
                   onClick={() => cancelAppointment(item._id)}
                   className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300"
@@ -167,9 +252,8 @@ const MyAppointments = () => {
                   Cancel appointment
                 </button>
               )}
-
-              {item.cancelled && (
-                <button className="sm:min-w-48 py-2 border border-red-500 rounded bg-red-700 text-white">
+              {item.cancelled && !item.isCompleted && (
+                <button className="sm:min-w-48 py-2 border-2  border-red-500 rounded text-red-500 cursor-default">
                   Appointment cancelled
                 </button>
               )}
