@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { v2 as cloudinary } from "cloudinary";
 import doctorModel from "../models/doctorModel.js";
 import jwt from "jsonwebtoken";
+import appointmentModel from "../models/appointmentModel.js";
 
 //API for admin Login
 const loginAdmin = async (req, res) => {
@@ -129,4 +130,36 @@ const allDoctors = async (req, res) => {
   }
 };
 
-export { addDoctor, loginAdmin, allDoctors };
+//API to get all appointments for admin panel
+
+const appointmentsAdmin = async (req, res) => {
+  try {
+    const appointments = await appointmentModel.find({});
+    res.status(200).json({ success: true, appointments });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const appointmentCancel = async (req, res) => {
+  try {
+    const { appointmentId } = req.body;
+    await appointmentModel.findByIdAndUpdate(appointmentId, {
+      cancelled: true,
+    });
+
+    res.json({ success: true, message: "Appointment Cancelled" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export {
+  addDoctor,
+  loginAdmin,
+  allDoctors,
+  appointmentsAdmin,
+  appointmentCancel,
+};
