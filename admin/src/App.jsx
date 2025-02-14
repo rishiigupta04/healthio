@@ -11,10 +11,14 @@ import AllAppointments from "./pages/admin/AllAppointments";
 import AddDoctor from "./pages/admin/AddDoctor";
 import DoctorList from "./pages/admin/DoctorsList";
 import { DoctorContext } from "./context/DoctorContext";
+import DoctorDashboard from "./pages/doctor/doctorDashboard";
+import DoctorAppointments from "./pages/doctor/doctorAppointments";
+import DoctorProfile from "./pages/doctor/doctorProfile";
 
 const App = () => {
   const { aToken } = useContext(AdminContext);
   const { dToken } = useContext(DoctorContext);
+
   return aToken || dToken ? (
     <div className="bg-[#F8F9FD]">
       <ToastContainer
@@ -28,15 +32,23 @@ const App = () => {
         pauseOnHover={false}
         theme="light"
       />
+
       <Navbar />
+
       <div className="flex items-start">
         <Sidebar />
         <Routes>
+          {/* //Admin routes */}
           <Route path="/" element={<></>} />
           <Route path="/admin-dashboard" element={<Dashboard />} />
           <Route path="/all-appointments" element={<AllAppointments />} />
           <Route path="/add-doctor" element={<AddDoctor />} />
           <Route path="/doctor-list" element={<DoctorList />} />
+
+          {/* //Doctor routes */}
+          <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+          <Route path="/doctor-appointments" element={<DoctorAppointments />} />
+          <Route path="/doctor-profile" element={<DoctorProfile />} />
         </Routes>
       </div>
     </div>
