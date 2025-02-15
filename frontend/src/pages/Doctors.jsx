@@ -65,34 +65,45 @@ const Doctors = () => {
           ))}
         </div>
         <div className="w-full grid grid-cols-auto gap-4">
-          {filterDoc.map((doc) => (
-            <div
-              key={doc._id}
-              onClick={() => {
-                navigate(`/appointment/${doc._id}`);
-                scrollTo(0, 0);
-              }}
-              className="border rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-3px] transition-all"
-            >
-              <img className="bg-[#EAEFFF]" src={doc.image} alt={doc.name} />
-              <div className="p-4">
-                <div
-                  className={`flex items-center gap-2 text-sm ${
-                    doc.available ? "text-green-500" : "text-gray-500"
-                  }`}
-                >
-                  <p
-                    className={`w-2 h-2 rounded-full ${
-                      doc.available ? "bg-green-500" : "bg-gray-500"
-                    }`}
-                  ></p>
-                  <p>{doc.available ? "Available" : "Not Available"}</p>
-                </div>
-                <p className="text-lg font-medium">{doc.name}</p>
-                <p className="text-sm text-gray-600">{doc.speciality}</p>
-              </div>
+          {filterDoc.length === 0 ? (
+            <div className="text-center mt-10">
+              <p className="text-lg text-gray-500">
+                No doctors available for this specialty.
+              </p>
+              <p className="text-sm text-gray-400">
+                Please try a different specialty.
+              </p>
             </div>
-          ))}
+          ) : (
+            filterDoc.map((doc) => (
+              <div
+                key={doc._id}
+                onClick={() => {
+                  navigate(`/appointment/${doc._id}`);
+                  scrollTo(0, 0);
+                }}
+                className="border rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-3px] transition-all"
+              >
+                <img className="bg-[#EAEFFF]" src={doc.image} alt={doc.name} />
+                <div className="p-4">
+                  <div
+                    className={`flex items-center gap-2 text-sm ${
+                      doc.available ? "text-green-500" : "text-gray-500"
+                    }`}
+                  >
+                    <p
+                      className={`w-2 h-2 rounded-full ${
+                        doc.available ? "bg-green-500" : "bg-gray-500"
+                      }`}
+                    ></p>
+                    <p>{doc.available ? "Available" : "Not Available"}</p>
+                  </div>
+                  <p className="text-lg font-medium">{doc.name}</p>
+                  <p className="text-sm text-gray-600">{doc.speciality}</p>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
