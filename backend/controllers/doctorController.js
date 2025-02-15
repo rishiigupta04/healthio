@@ -120,6 +120,66 @@ const appointmentCancel = async (req, res) => {
   }
 };
 
+//API to get dashboard data for doctor panel
+
+const doctorDashboard = async (req, res) => {
+  try {
+    const { docId } = req.body;
+    const appointments = await appointmentModel.find({ docId });
+
+    let earnings = 0;
+    const patients = new Set(); // Use a Set to avoid duplicates
+
+    appointments.forEach((item) => {
+      if (item.isCompleted || item.payment) {
+        earnings += item.amount;
+      }
+      patients.add(item.userId); // Add userId to the Set
+    });
+
+    const dashData = {
+      earnings,
+      appointments: appointments.length,
+      patients: patients.size, // Get the size of the Set for unique patients
+      latestAppointments: appointments.reverse().slice(0, 5),
+    };
+
+    // Send response once after all calculations
+    return res.status(200).json({ success: true, dashData });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+//API to get doctor profile for doctor panel
+const doctorProfile = async (req, res) => {
+  try {
+    const { docId } = req.body;
+    const profileData = await doctorModel.findById(docId).select(["-password"]);
+    res.status(200).json({ success: true, profileData });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+//API to update doctor profile for doctor panel
+const updateDoctorProfile = async (req, res) => {
+  try {
+    const { docId, fees, address, available } = req.body;
+    await doctorModel.findByIdAndUpdate(docId, {
+      fees,
+      address,
+      available,
+    });
+    res.status(200).json({ success: true, message: "Profile updated" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 export {
   changeAvailability,
   doctorList,
@@ -127,4 +187,7 @@ export {
   appointmentsDoctor,
   appointmentComplete,
   appointmentCancel,
+  doctorDashboard,
+  doctorProfile,
+  updateDoctorProfile,
 };

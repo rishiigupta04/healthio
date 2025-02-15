@@ -70,7 +70,7 @@ const DoctorAppointments = () => {
                 Completed
               </p>
             ) : (
-              <div className="flex justify-start align-center">
+              <div className="flex">
                 <img
                   onClick={() => cancelAppointment(item._id)}
                   className="w-10 cursor-pointer  "

@@ -20,10 +20,7 @@ const Navbar = () => {
   return (
     <div className="flex justify-between items-center px-4 sm:px-10 py-3 border-b bg-white">
       <div className="flex items-center gap-2 text-xs">
-        <div
-          onClick={() => navigate("/admin-dashboard")}
-          className="flex items-end gap-2"
-        >
+        <div onClick={() => navigate("/")} className="flex items-end gap-2">
           <img className="w-10 cursor-pointer" src="/favicon.svg" alt="" />
           <h1 className="text-2xl font-bold  tracking-normal cursor-pointer">
             Healthio
