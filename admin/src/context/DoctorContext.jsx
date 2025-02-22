@@ -45,13 +45,21 @@ const DoctorContextProvider = (props) => {
         { headers: { Authorization: `Bearer ${dToken}` } }
       );
       if (data.success) {
+        setAppointments((prevAppointments) =>
+          prevAppointments.map((appointment) =>
+            appointment._id === appointmentId
+              ? { ...appointment, isCompleted: true }
+              : appointment
+          )
+        );
         toast.success(data.message);
-        getAppointments();
+        if (dashData) {
+          getDashData();
+        }
       } else {
         toast.error(data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };

@@ -48,7 +48,6 @@ const AdminContextProvider = (props) => {
       toast.error(error.message);
     }
   };
-
   const getAllAppointments = async () => {
     try {
       const { data } = await axios.get(backendUrl + "/api/admin/appointments", {
@@ -56,7 +55,6 @@ const AdminContextProvider = (props) => {
       });
       if (data.success) {
         setAppointments(data.appointments);
-        // console.log("Fetched appointments:", data.appointments);
       } else {
         toast.error(data.message);
       }
@@ -75,8 +73,17 @@ const AdminContextProvider = (props) => {
       );
 
       if (data.success) {
+        setAppointments(prevAppointments =>
+          prevAppointments.map(appointment =>
+            appointment._id === appointmentId
+              ? { ...appointment, status: 'cancelled' }
+              : appointment
+          )
+        );
         toast.success(data.message);
-        getAllAppointments();
+        if (dashData) {
+          getDashData();
+        }
       } else {
         toast.error(data.message);
       }
@@ -85,7 +92,6 @@ const AdminContextProvider = (props) => {
       console.log(error);
     }
   };
-
   const getDashData = async () => {
     try {
       const { data } = await axios.get(backendUrl + "/api/admin/dashboard", {
@@ -100,14 +106,11 @@ const AdminContextProvider = (props) => {
       toast.error(error.message);
     }
   };
-
   useEffect(() => {
     if (aToken) {
       getAllAppointments();
-      setAppointments(appointments);
     }
   }, [aToken]);
-
   const value = {
     aToken,
     setAToken,
